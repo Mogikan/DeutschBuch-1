@@ -7,7 +7,9 @@ structure:
       - title: Тема 2
         path: /a1/2.mdx
   - title: A2
-    items: []
+    items:
+      - title: Тема 1
+        path: /a2/1.mdx
   - title: B1
     items: []
   - title: B2
