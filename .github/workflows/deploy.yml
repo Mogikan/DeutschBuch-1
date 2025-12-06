@@ -30,6 +30,11 @@ jobs:
           VITE_APP_MODE: reader
           # Add any other necessary env vars here
 
+      - name: Copy Content to Build Output
+        run: |
+          cp course.yaml ./dist/ || true
+          cp -r content ./dist/ || true
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
