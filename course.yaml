@@ -10,6 +10,8 @@ structure:
     items:
       - title: Тема 1
         path: /a2/1.mdx
+      - title: Тема 2
+        path: /a2/2.mdx
   - title: B1
     items: []
   - title: B2
