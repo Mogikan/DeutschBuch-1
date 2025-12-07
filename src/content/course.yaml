@@ -9,4 +9,6 @@ structure:
           - title: Reisen Lesson 1
             path: /src/content/reise/reisen-lesson-1.mdx
   - title: A2
-    items: []
+    items:
+      - title: A2 lesson 1
+        path: /src/content/a2/a2-lesson-1.mdx
