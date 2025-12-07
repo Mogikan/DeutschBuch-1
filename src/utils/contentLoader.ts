@@ -60,7 +60,8 @@ export async function loadBundledFile(path: string): Promise<string | null> {
 
     for (const key of candidates) {
         if (key in modules) {
-            return modules[key] as string;
+            const mod = modules[key];
+            return typeof mod === 'string' ? mod : JSON.stringify(mod);
         }
     }
 

@@ -24,6 +24,11 @@ interface MDXViewerProps {
 }
 
 export const MDXViewer: React.FC<MDXViewerProps> = ({ content, className }) => {
+    if (typeof content !== 'string') {
+        console.error('MDXViewer received non-string content:', content);
+        return <div className="p-4 text-red-500">Error: Invalid content format</div>;
+    }
+
     const [MDXComponent, setMDXComponent] = useState<React.ComponentType<any> | null>(null);
     const [error, setError] = useState<string | null>(null);
 
