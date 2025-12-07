@@ -4,5 +4,7 @@ structure:
     items:
       - title: Lesson 1
         path: /src/content/a1/lesson-1.mdx
+      - title: Reise
+        items: []
   - title: A2
     items: []
