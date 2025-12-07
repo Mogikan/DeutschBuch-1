@@ -12,7 +12,7 @@ import { ProgressBar } from './components/progress/ProgressBar';
 import { Check, Loader2 } from 'lucide-react';
 import { MDXViewer } from './components/MDXViewer';
 import { ToastProvider } from './context/ToastContext';
-import { BrowserFileSystem } from './lib/github/fileSystem';
+
 
 // In the standalone Reader App, we don't use GitHub Context or Editor
 // We relies on standard fetching from the deployment URL (relative paths)
