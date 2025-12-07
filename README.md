@@ -1,2 +1,1 @@
-# DeutschBuch-1
-Interactive deutschbuch A1-C1
+Test project for another product deployments test
