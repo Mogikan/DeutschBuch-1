@@ -22,7 +22,7 @@ jobs:
           # Cache removed because we don't commit package-lock.json in the reader app
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build
         run: npm run build
