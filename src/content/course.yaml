@@ -5,6 +5,8 @@ structure:
       - title: Lesson 1
         path: /src/content/a1/lesson-1.mdx
       - title: Reise
-        items: []
+        items:
+          - title: Reisen Lesson 1
+            path: /src/content/reise/reisen-lesson-1.mdx
   - title: A2
     items: []
