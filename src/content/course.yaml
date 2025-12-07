@@ -3,12 +3,12 @@ structure:
   - title: A1
     items:
       - title: Lesson 1
-        path: /src/content/a1/lesson-1.mdx
+        path: /a1/lesson-1.mdx
       - title: Reise
         items:
           - title: Reisen Lesson 1
-            path: /src/content/reise/reisen-lesson-1.mdx
+            path: /reise/reisen-lesson-1.mdx
   - title: A2
     items:
       - title: A2 lesson 1
-        path: /src/content/a2/a2-lesson-1.mdx
+        path: /a2/a2-lesson-1.mdx
