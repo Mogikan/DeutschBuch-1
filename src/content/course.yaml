@@ -10,6 +10,8 @@ structure:
             path: /reise/reisen-lesson-1.mdx
       - title: lesson 2
         items: []
+      - title: lesson a1 - 2
+        path: /a1/lesson-a1-2
   - title: A2
     items:
       - title: A2 lesson 1
