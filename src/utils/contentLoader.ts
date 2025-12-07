@@ -65,10 +65,19 @@ export async function loadBundledFile(path: string): Promise<string | null> {
 
     for (const key of candidates) {
         if (key in modules) {
-            const mod = modules[key];
-            return typeof mod === 'string' ? mod : JSON.stringify(mod);
+            const mod = modules[key] as any;
+            console.log('[ContentLoader] Match found:', key);
+            console.log('[ContentLoader] Type:', typeof mod);
+
+            // Handle different import results
+            if (typeof mod === 'string') return mod;
+            if (typeof mod === 'object' && mod !== null) {
+                if ('default' in mod) return mod.default;
+                return JSON.stringify(mod);
+            }
+            return String(mod);
         }
     }
-
+    console.warn('[ContentLoader] No match found for:', path);
     return null;
 }
