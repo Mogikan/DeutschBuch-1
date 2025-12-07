@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "count-exercises": "node scripts/count-exercises.js",
+    "scan-images": "node scripts/scan-images.js",
+    "prebuild": "npm run count-exercises && npm run scan-images",
+    "build": "tsc -b && vite build && node scripts/generate-sitemap.js && node scripts/prerender.js",
     "preview": "vite preview"
   },
   "dependencies": {
