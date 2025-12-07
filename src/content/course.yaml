@@ -8,6 +8,8 @@ structure:
         items:
           - title: Reisen Lesson 1
             path: /reise/reisen-lesson-1.mdx
+      - title: lesson 2
+        items: []
   - title: A2
     items:
       - title: A2 lesson 1
