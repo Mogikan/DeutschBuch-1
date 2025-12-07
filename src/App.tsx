@@ -194,10 +194,25 @@ function DynamicPage({ path }: { path: string }) {
             try {
                 const cleanPath = path.startsWith('/') ? path.slice(1) : path;
                 let fileContent = '';
+
+                // Try exact path
                 if (await fileSystem.exists(cleanPath)) {
                     fileContent = await fileSystem.readFile(cleanPath);
-                } else if (await fileSystem.exists(cleanPath + '.mdx')) {
+                }
+                // Try extension
+                else if (await fileSystem.exists(cleanPath + '.mdx')) {
                     fileContent = await fileSystem.readFile(cleanPath + '.mdx');
+                }
+                // Try src/content prefix (if not already present)
+                else if (!cleanPath.startsWith('src/content/')) {
+                    const contentPath = `src/content/${cleanPath}`;
+                    if (await fileSystem.exists(contentPath)) {
+                        fileContent = await fileSystem.readFile(contentPath);
+                    } else if (await fileSystem.exists(contentPath + '.mdx')) {
+                        fileContent = await fileSystem.readFile(contentPath + '.mdx');
+                    } else {
+                        throw new Error(`File not found: ${path}`);
+                    }
                 } else {
                     throw new Error(`File not found: ${path}`);
                 }

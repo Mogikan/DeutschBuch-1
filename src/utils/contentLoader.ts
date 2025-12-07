@@ -15,7 +15,12 @@ export interface CourseStructure {
 export async function loadCourseStructure(fs?: IFileSystem): Promise<CourseStructure> {
     if (fs) {
         try {
-            // Try loading from root first
+            // Try loading from src/content first (standard location)
+            if (await fs.exists('src/content/course.yaml')) {
+                const content = await fs.readFile('src/content/course.yaml');
+                return yaml.load(content) as CourseStructure;
+            }
+            // Fallback to root (legacy)
             if (await fs.exists('course.yaml')) {
                 const content = await fs.readFile('course.yaml');
                 return yaml.load(content) as CourseStructure;
