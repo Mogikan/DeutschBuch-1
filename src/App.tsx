@@ -244,10 +244,10 @@ function AppContent() {
     useEffect(() => {
         const init = async () => {
             setLoading(true);
-            // BrowserFileSystem handles fetching relative to public/
-            const fs = new BrowserFileSystem();
+            setLoading(true);
+            // Don't pass fs to use the bundled version (import.meta.glob)
             try {
-                const data = await loadCourseStructure(fs);
+                const data = await loadCourseStructure();
                 setCourse(data);
             } catch (e) {
                 console.error("Failed to load course", e);
