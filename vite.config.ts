@@ -7,6 +7,7 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/DeutschBuch-1/',
   plugins: [
     {
       enforce: 'pre', ...mdx({
