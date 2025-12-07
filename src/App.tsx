@@ -197,7 +197,7 @@ function DynamicPage({ path }: { path: string }) {
                 if (fileContent) {
                     if (mounted) setContent(fileContent);
                 } else {
-                    throw new Error(\`File not found: \${path}\`);
+                    throw new Error(`File not found: ${path}`);
                 }
             } catch (err: any) {
                 if (mounted) setError(err.message || 'Failed to load content');
