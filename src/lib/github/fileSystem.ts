@@ -10,12 +10,16 @@ export interface IFileSystem {
 
 export class BrowserFileSystem implements IFileSystem {
     async readFile(path: string): Promise<string> {
-        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+        // Remove leading slash to avoid double slashes with BASE_URL
+        const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+        // Use Vite's BASE_URL (e.g. /repo-name/) to correctly fetch assets
+        const normalizedPath = `${import.meta.env.BASE_URL}${cleanPath}`;
+        
         try {
             const response = await fetch(normalizedPath);
             if (!response.ok) {
                 if (response.status === 404) throw new Error(`File not found: ${path}`);
-                throw new Error(`Failed to fetch ${path}: ${response.statusText}`);
+                throw new Error(`Failed to fetch ${path}: ${response.statusText} (dest: ${normalizedPath})`);
             }
             return await response.text();
         } catch (e: any) {
