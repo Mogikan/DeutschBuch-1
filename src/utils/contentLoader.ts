@@ -43,7 +43,9 @@ export async function loadCourseStructure(fs?: IFileSystem): Promise<CourseStruc
 
 export async function loadBundledFile(path: string): Promise<string | null> {
     // Import all MDX files as raw strings
-    const modules = import.meta.glob('../content/**/*.mdx', { query: '?raw', import: 'default', eager: true });
+    // Import all MDX files as raw strings
+    // value is { default: string } because of ?raw
+    const modules = import.meta.glob('../content/**/*.mdx', { query: '?raw', eager: true });
 
     // Normalize path to match glob keys
     // Glob keys are relative to this file: ../content/path/to/file.mdx
@@ -70,12 +72,19 @@ export async function loadBundledFile(path: string): Promise<string | null> {
             console.log('[ContentLoader] Type:', typeof mod);
 
             // Handle different import results
+            // Handle different import results
             if (typeof mod === 'string') return mod;
-            if (typeof mod === 'object' && mod !== null) {
-                if ('default' in mod) return mod.default;
-                return JSON.stringify(mod);
+
+            // If it's a module with default export (common with ?raw + eager without import:'default')
+            if (typeof mod === 'object' && mod !== null && 'default' in mod) {
+                return mod.default as string;
             }
-            return String(mod);
+
+            // Fallback: if it's a function (the issue we saw), call it?
+            // But with eager: true it shouldn't be a function unless it's a component.
+            // If ?raw worked, it should be a module with default string.
+
+            return JSON.stringify(mod);
         }
     }
     console.warn('[ContentLoader] No match found for:', path);
