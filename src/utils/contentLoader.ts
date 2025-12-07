@@ -58,6 +58,11 @@ export async function loadBundledFile(path: string): Promise<string | null> {
         `../content/${cleanPath}/index.mdx`
     ];
 
+    console.log('[ContentLoader] Loading:', path);
+    console.log('[ContentLoader] Candidates:', candidates);
+    console.log('[ContentLoader] Available keys sample:', Object.keys(modules).slice(0, 5));
+    // console.log('[ContentLoader] All keys:', Object.keys(modules));
+
     for (const key of candidates) {
         if (key in modules) {
             const mod = modules[key];
