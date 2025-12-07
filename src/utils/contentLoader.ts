@@ -40,3 +40,29 @@ export async function loadCourseStructure(fs?: IFileSystem): Promise<CourseStruc
     const yamlContent = modules['../content/course.yaml'] as string;
     return yaml.load(yamlContent) as CourseStructure;
 }
+
+export async function loadBundledFile(path: string): Promise<string | null> {
+    // Import all MDX files as raw strings
+    const modules = import.meta.glob('../content/**/*.mdx', { query: '?raw', import: 'default', eager: true });
+
+    // Normalize path to match glob keys
+    // Glob keys are relative to this file: ../content/path/to/file.mdx
+
+    // Input path might be "a1/lesson-1" or "src/content/a1/lesson-1.mdx" or "/a1/lesson-1"
+    let cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    if (cleanPath.startsWith('src/content/')) cleanPath = cleanPath.replace('src/content/', '');
+    if (cleanPath.endsWith('.mdx')) cleanPath = cleanPath.slice(0, -4);
+
+    const candidates = [
+        `../content/${cleanPath}.mdx`,
+        `../content/${cleanPath}/index.mdx`
+    ];
+
+    for (const key of candidates) {
+        if (key in modules) {
+            return modules[key] as string;
+        }
+    }
+
+    return null;
+}

@@ -179,12 +179,12 @@ function SidebarItem({ item, depth = 0, exerciseCounts }: SidebarItemProps) {
     );
 }
 
+import { loadBundledFile } from './utils/contentLoader';
+
 function DynamicPage({ path }: { path: string }) {
     const [content, setContent] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    // Simpler File System for Reader
-    const fileSystem = new BrowserFileSystem();
 
     useEffect(() => {
         let mounted = true;
@@ -192,31 +192,13 @@ function DynamicPage({ path }: { path: string }) {
             setLoading(true);
             setError(null);
             try {
-                const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-                let fileContent = '';
+                const fileContent = await loadBundledFile(path);
 
-                // Try exact path
-                if (await fileSystem.exists(cleanPath)) {
-                    fileContent = await fileSystem.readFile(cleanPath);
-                }
-                // Try extension
-                else if (await fileSystem.exists(cleanPath + '.mdx')) {
-                    fileContent = await fileSystem.readFile(cleanPath + '.mdx');
-                }
-                // Try src/content prefix (if not already present)
-                else if (!cleanPath.startsWith('src/content/')) {
-                    const contentPath = `src/content/${cleanPath}`;
-                    if (await fileSystem.exists(contentPath)) {
-                        fileContent = await fileSystem.readFile(contentPath);
-                    } else if (await fileSystem.exists(contentPath + '.mdx')) {
-                        fileContent = await fileSystem.readFile(contentPath + '.mdx');
-                    } else {
-                        throw new Error(`File not found: ${path}`);
-                    }
+                if (fileContent) {
+                    if (mounted) setContent(fileContent);
                 } else {
-                    throw new Error(`File not found: ${path}`);
+                    throw new Error(\`File not found: \${path}\`);
                 }
-                if (mounted) setContent(fileContent);
             } catch (err: any) {
                 if (mounted) setError(err.message || 'Failed to load content');
             } finally {
@@ -451,7 +433,7 @@ export default function ReaderApp() {
         <SettingsProvider>
             <ProgressProvider>
                 <ToastProvider>
-                    <Router>
+                    <Router basename={import.meta.env.BASE_URL}>
                         <AppContent />
                     </Router>
                 </ToastProvider>
