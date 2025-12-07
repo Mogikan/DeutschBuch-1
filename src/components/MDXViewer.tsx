@@ -36,10 +36,10 @@ export const MDXViewer: React.FC<MDXViewerProps> = ({ content, className }) => {
                     return text.replace(regex, (_match, openTag, subcontent, closeTag) => {
                         const hasTableSeparator = /^\s*\|[\s\-:|]+\|\s*$/m.test(subcontent);
                         if (hasTableSeparator) {
-                            const cleanedContent = subcontent.split('\n').map(l => l.trim()).join('\n');
+                            const cleanedContent = subcontent.split('\n').map((l: string) => l.trim()).join('\n');
                             return `${openTag}\n${cleanedContent}\n${closeTag}`;
                         }
-                        const cleanedContent = subcontent.split('\n').filter(l => l.trim() !== '').map(l => l.trim()).join('\n');
+                        const cleanedContent = subcontent.split('\n').filter((l: string) => l.trim() !== '').map((l: string) => l.trim()).join('\n');
                         return `${openTag}\n${cleanedContent}\n${closeTag}`;
                     });
                 };

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Check, X, Info, AlertTriangle } from 'lucide-react';
 import { clsx } from 'clsx';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export type ToastType = 'success' | 'error' | 'info' | 'warning';
 

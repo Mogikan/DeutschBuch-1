@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Save } from 'lucide-react';
-import { clsx } from 'clsx';
 
 interface InputModalProps {
     isOpen: boolean;
