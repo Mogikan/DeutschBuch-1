@@ -1,6 +1,8 @@
 title: New Course
 structure:
   - title: A1
-    items: []
+    items:
+      - title: Lesson 1
+        path: /src/content/a1/lesson-1.mdx
   - title: A2
     items: []
