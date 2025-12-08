@@ -376,7 +376,9 @@ function AppContent() {
                     <div className="h-full flex flex-col">
                         <div className="p-4 border-b border-gray-200 dark:border-gray-800">
                             <div className="flex items-center justify-between mb-2">
-                                <h1 className="text-xl font-bold text-gray-900 dark:text-white">{course.title}</h1>
+                                <h1 className="text-lg font-bold text-gray-900 dark:text-white break-words leading-tight pr-2">
+                                    {course.title}
+                                </h1>
                                 <button
                                     onClick={() => setIsSidebarOpen(false)}
                                     className="md:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800"
