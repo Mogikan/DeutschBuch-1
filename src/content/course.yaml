@@ -4,6 +4,8 @@ structure:
     items:
       - title: task1
         path: /a1/task1
+      - title: супер статья
+        path: /a1/
   - title: A2
     items:
       - title: a1 task1
