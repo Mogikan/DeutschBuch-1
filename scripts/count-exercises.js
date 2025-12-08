@@ -23,7 +23,8 @@ const EXERCISE_COMPONENTS = [
     'Grouping',
     'Flashcards',
     'SpeakingChallenge',
-    'InteractiveMedia'
+    'InteractiveMedia',
+    'ImageLabeling'
 ];
 
 function countExercisesInMdx(mdxContent) {
