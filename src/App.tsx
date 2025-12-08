@@ -428,29 +428,31 @@ function AppContent() {
                 )}>
                     <div className="h-full overflow-y-auto pt-16 md:pt-0">
                         <React.Suspense fallback={<div className="p-8 flex justify-center"><Loader2 className="animate-spin" /></div>}>
-                            <Routes>
-                                {routes.map((route) => (
-                                    <Route
-                                        key={route.path}
-                                        path={route.path}
-                                        element={
-                                            <>
-                                                <Helmet>
-                                                    <title>{course.title}</title>
-                                                </Helmet>
-                                                <MDXComponentsProvider>
-                                                    <article className="prose dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-xl">
-                                                        {route.element}
-                                                        <NextLessonNavigation currentPath={route.path} structure={course.structure} />
-                                                    </article>
-                                                </MDXComponentsProvider>
-                                            </>
-                                        }
-                                    />
-                                ))}
-                                <Route path="/table-test" element={<div />} /> {/* Dummy */}
-                                <Route path="/" element={<Navigate to={routes[0]?.path || '/'} replace />} />
-                            </Routes>
+                            <div className="max-w-6xl mx-auto p-4 md:p-8">
+                                <Routes>
+                                    {routes.map((route) => (
+                                        <Route
+                                            key={route.path}
+                                            path={route.path}
+                                            element={
+                                                <>
+                                                    <Helmet>
+                                                        <title>{course.title}</title>
+                                                    </Helmet>
+                                                    <MDXComponentsProvider>
+                                                        <article className="prose dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-xl">
+                                                            {route.element}
+                                                            <NextLessonNavigation currentPath={route.path} structure={course.structure} />
+                                                        </article>
+                                                    </MDXComponentsProvider>
+                                                </>
+                                            }
+                                        />
+                                    ))}
+                                    <Route path="/table-test" element={<div />} /> {/* Dummy */}
+                                    <Route path="/" element={<Navigate to={routes[0]?.path || '/'} replace />} />
+                                </Routes>
+                            </div>
                         </React.Suspense>
                     </div>
                 </div>
