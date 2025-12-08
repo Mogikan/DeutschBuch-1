@@ -1,6 +1,8 @@
 title: New Course
 structure:
   - title: A1
-    items: []
+    items:
+      - title: task1
+        path: /a1/task1
   - title: A2
     items: []
