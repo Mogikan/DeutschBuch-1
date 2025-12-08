@@ -7,6 +7,7 @@ import { useProgress } from '../../context/ProgressContext';
 import { useLocation } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { generateStableExerciseId } from '../../utils/exerciseId';
+import { useGitHub } from '../../context/GitHubContext';
 
 interface Slot {
     id: string;
@@ -176,6 +177,7 @@ export const ImageLabeling: React.FC<ImageLabelingProps> = ({ image, slots, word
     const location = useLocation();
     const exerciseIdRef = useRef<string>('');
     const [isCompleted, setIsCompleted] = useState(false);
+    const { fileSystem } = useGitHub();
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -184,6 +186,15 @@ export const ImageLabeling: React.FC<ImageLabelingProps> = ({ image, slots, word
             },
         })
     );
+
+    // Resolve image path
+    const resolvedImage = React.useMemo(() => {
+        if (image && (image.startsWith('public/') || image.startsWith('/public/'))) {
+            const path = image.startsWith('/') ? image.slice(1) : image;
+            return fileSystem.getPublicUrl(path);
+        }
+        return image;
+    }, [image, fileSystem]);
 
     useEffect(() => {
         const lessonPath = location.pathname;
@@ -264,7 +275,7 @@ export const ImageLabeling: React.FC<ImageLabelingProps> = ({ image, slots, word
             >
                 <div className="relative mb-6 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
                     <img
-                        src={image}
+                        src={resolvedImage}
                         alt="Labeling exercise"
                         className="w-full h-auto"
                         draggable={false}
