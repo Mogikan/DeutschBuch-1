@@ -33,10 +33,21 @@ export const Media: React.FC<MediaProps> = ({ src, type, caption, onResolvePath 
 
     const renderMedia = () => {
         let resolvedSrc = src;
-        // Resolve path if resolver provided
-        if (onResolvePath && type === 'image' && (src.startsWith('public/') || src.startsWith('/public/'))) {
+        // Resolve path if resolver provided, functionality for the Editor
+        if (type === 'image' && (src.startsWith('public/') || src.startsWith('/public/'))) {
             const path = src.startsWith('/') ? src.slice(1) : src;
-            resolvedSrc = onResolvePath(path);
+
+            if (onResolvePath) {
+                resolvedSrc = onResolvePath(path);
+            } else {
+                // Runtime/Production resolution for Reader
+                // Strip 'public/' and prepend base URL
+                const relativePath = path.replace(/^public\//, '');
+                // Ensure we don't end up with double slashes if BASE_URL ends with / and path starts with /
+                // Usually BASE_URL ends with /
+                const baseUrl = import.meta.env.BASE_URL || '/';
+                resolvedSrc = `${baseUrl}${relativePath}`.replace(/\/+/g, '/');
+            }
         }
 
         switch (type) {

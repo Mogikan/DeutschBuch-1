@@ -188,9 +188,17 @@ export const ImageLabeling: React.FC<ImageLabelingProps> = ({ image, slots, word
 
     // Resolve image path
     const resolvedImage = React.useMemo(() => {
-        if (onResolvePath && image && (image.startsWith('public/') || image.startsWith('/public/'))) {
+        if (image && (image.startsWith('public/') || image.startsWith('/public/'))) {
             const path = image.startsWith('/') ? image.slice(1) : image;
-            return onResolvePath(path);
+
+            if (onResolvePath) {
+                return onResolvePath(path);
+            }
+
+            // Runtime/Production resolution for Reader
+            const relativePath = path.replace(/^public\//, '');
+            const baseUrl = import.meta.env.BASE_URL || '/';
+            return `${baseUrl}${relativePath}`.replace(/\/+/g, '/');
         }
         return image;
     }, [image, onResolvePath]);
