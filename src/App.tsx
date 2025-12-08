@@ -94,16 +94,40 @@ function SidebarItem({ item, depth = 0, exerciseCounts }: SidebarItemProps) {
 
     let progressPercentage = 0;
     if (item.path && !hasChildren) {
+        // Robust lookup for exercise counts
+        const normalize = (p: string) => {
+            let s = p;
+            if (s.startsWith('/')) s = s.slice(1);
+            if (s.endsWith('.mdx')) s = s.slice(0, -4);
+            return s;
+        };
+
+        const lookupCount = (p: string): number => {
+            if (exerciseCounts[p]) return exerciseCounts[p];
+
+            const clean = normalize(p);
+            // Try variations
+            const variations = [
+                clean,
+                '/' + clean,
+                clean + '.mdx',
+                '/' + clean + '.mdx'
+            ];
+
+            for (const v of variations) {
+                if (exerciseCounts[v]) return exerciseCounts[v];
+            }
+            return 0;
+        };
+
+        const count = lookupCount(item.path);
+
         // Debug Log
-        console.log(`[ReaderSidebar] Item: ${item.path}, Count: ${exerciseCounts[item.path]}, CountsKeys: ${Object.keys(exerciseCounts).length}`);
+        console.log(`[ReaderSidebar] Item: ${item.path}, ResolvedCount: ${count}`);
 
-        if (exerciseCounts[item.path] > 0) {
-            const lessonProgress = getLessonProgressData(item.path, exerciseCounts[item.path]);
+        if (count > 0) {
+            const lessonProgress = getLessonProgressData(item.path, count);
             progressPercentage = lessonProgress.percentage;
-
-            // if (item.path.includes('artikel')) {
-            //     console.log('Progress Data:', lessonProgress);
-            // }
         }
     }
 
