@@ -3,15 +3,15 @@ import { useProgress } from '../../context/ProgressContext';
 import { useLocation } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { generateStableExerciseId } from '../../utils/exerciseId';
-import { useGitHub } from '../../context/GitHubContext';
 
 interface MediaProps {
     src: string;
     type: 'audio' | 'video' | 'youtube' | 'image';
     caption?: string;
+    onResolvePath?: (path: string) => string;
 }
 
-export const Media: React.FC<MediaProps> = ({ src, type, caption }) => {
+export const Media: React.FC<MediaProps> = ({ src, type, caption, onResolvePath }) => {
     const { markExerciseComplete, isExerciseComplete } = useProgress();
     const location = useLocation();
     const exerciseIdRef = useRef<string>('');
@@ -31,15 +31,12 @@ export const Media: React.FC<MediaProps> = ({ src, type, caption }) => {
         }
     };
 
-    const { fileSystem } = useGitHub(); // Add this hook
-
     const renderMedia = () => {
         let resolvedSrc = src;
-        // Resolve public/images paths for images
-        if (type === 'image' && (src.startsWith('public/') || src.startsWith('/public/'))) {
-            // Remove leading slash if present for filesystem
+        // Resolve path if resolver provided
+        if (onResolvePath && type === 'image' && (src.startsWith('public/') || src.startsWith('/public/'))) {
             const path = src.startsWith('/') ? src.slice(1) : src;
-            resolvedSrc = fileSystem.getPublicUrl(path);
+            resolvedSrc = onResolvePath(path);
         }
 
         switch (type) {
