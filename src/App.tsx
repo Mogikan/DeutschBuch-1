@@ -10,7 +10,7 @@ import { NextLessonNavigation } from './components/NextLessonNavigation';
 import { SettingsModal } from './components/settings/SettingsModal';
 import { ProgressBar } from './components/progress/ProgressBar';
 import { Check, Loader2 } from 'lucide-react';
-import { MDXViewer } from './components/MDXViewer';
+
 import { ToastProvider } from './context/ToastContext';
 
 
