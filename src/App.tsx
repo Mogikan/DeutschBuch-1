@@ -266,8 +266,9 @@ function AppContent() {
     // Calculate stats
     // Note: exerciseCounts.json should be present in public/ or generated during build
     // For ReaderApp, we assume it's available or we might need to fetch it too.
-    // For now, importing from src is fine as it gets bundled.
-    const exerciseCounts: Record<string, number> = {}; // In a real reader build, this might be fetched or bundled. useProgress handles missing data gracefully.
+    import exerciseCountsData from './exerciseCounts.json';
+
+    const exerciseCounts = exerciseCountsData as Record<string, number>; // In a real reader build, this might be fetched or bundled. useProgress handles missing data gracefully.
 
     // Helper to flatten course structure for progress calculation
     const getAllLessons = (items: CourseItem[], parentFolder: string = ''): Array<{ path: string; exerciseCount: number; folder: string }> => {
