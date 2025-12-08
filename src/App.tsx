@@ -200,7 +200,8 @@ function SidebarItem({ item, depth = 0, exerciseCounts }: SidebarItemProps) {
                     )}
                 </div>
             </div>
-            {!hasChildren && progressElement}
+            {/* Progress bar for folders */}
+            {hasChildren && progressElement}
             {hasChildren && isOpen && (
                 <div className="border-l border-gray-200 dark:border-gray-700 ml-5">
                     {item.items!.map((subItem, idx) => (
