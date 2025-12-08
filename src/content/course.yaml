@@ -10,6 +10,8 @@ structure:
         path: /a1/chto-eto
       - title: Статья 6
         path: /a1/stat-ya-6
+      - title: Статья 5
+        path: /a1/stat-ya-5
   - title: A2
     items:
       - title: a1 task1
