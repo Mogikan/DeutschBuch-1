@@ -19,6 +19,33 @@ import { ToastProvider } from './context/ToastContext';
 // In the standalone Reader App, we don't use GitHub Context or Editor
 // We relies on standard fetching from the deployment URL (relative paths)
 
+// Robust lookup for exercise counts (Shared Helper)
+const normalizePath = (p: string) => {
+    let s = p;
+    if (s.startsWith('/')) s = s.slice(1);
+    if (s.endsWith('.mdx')) s = s.slice(0, -4);
+    return s;
+};
+
+const lookupExerciseCount = (exerciseCounts: Record<string, number>, p: string): number => {
+    if (!p) return 0;
+    if (exerciseCounts[p]) return exerciseCounts[p];
+
+    const clean = normalizePath(p);
+    // Try variations
+    const variations = [
+        clean,
+        '/' + clean,
+        clean + '.mdx',
+        '/' + clean + '.mdx'
+    ];
+
+    for (const v of variations) {
+        if (exerciseCounts[v]) return exerciseCounts[v];
+    }
+    return 0;
+};
+
 function SettingsToggle() {
     const { showHints, toggleShowHints } = useSettings();
     return (
@@ -64,7 +91,9 @@ function SidebarItem({ item, depth = 0, exerciseCounts }: SidebarItemProps) {
         const getDescendantLessons = (itm: CourseItem): Array<{ path: string; exerciseCount: number }> => {
             let lessons: Array<{ path: string; exerciseCount: number }> = [];
             if (itm.path && !itm.items) {
-                lessons.push({ path: itm.path, exerciseCount: exerciseCounts[itm.path] || 0 });
+                // Use robust lookup here!
+                const count = lookupExerciseCount(exerciseCounts, itm.path);
+                lessons.push({ path: itm.path, exerciseCount: count });
             }
             if (itm.items) {
                 itm.items.forEach(sub => {
@@ -94,33 +123,7 @@ function SidebarItem({ item, depth = 0, exerciseCounts }: SidebarItemProps) {
 
     let progressPercentage = 0;
     if (item.path && !hasChildren) {
-        // Robust lookup for exercise counts
-        const normalize = (p: string) => {
-            let s = p;
-            if (s.startsWith('/')) s = s.slice(1);
-            if (s.endsWith('.mdx')) s = s.slice(0, -4);
-            return s;
-        };
-
-        const lookupCount = (p: string): number => {
-            if (exerciseCounts[p]) return exerciseCounts[p];
-
-            const clean = normalize(p);
-            // Try variations
-            const variations = [
-                clean,
-                '/' + clean,
-                clean + '.mdx',
-                '/' + clean + '.mdx'
-            ];
-
-            for (const v of variations) {
-                if (exerciseCounts[v]) return exerciseCounts[v];
-            }
-            return 0;
-        };
-
-        const count = lookupCount(item.path);
+        const count = lookupExerciseCount(exerciseCounts, item.path);
 
         // Debug Log
         console.log(`[ReaderSidebar] Item: ${item.path}, ResolvedCount: ${count}`);
@@ -312,7 +315,7 @@ function AppContent() {
             if (item.path && !item.items) {
                 lessons.push({
                     path: item.path,
-                    exerciseCount: exerciseCounts[item.path] || 0,
+                    exerciseCount: lookupExerciseCount(exerciseCounts, item.path),
                     folder: parentFolder
                 });
             }
