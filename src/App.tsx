@@ -93,9 +93,18 @@ function SidebarItem({ item, depth = 0, exerciseCounts }: SidebarItemProps) {
     }
 
     let progressPercentage = 0;
-    if (item.path && !hasChildren && exerciseCounts[item.path] > 0) {
-        const lessonProgress = getLessonProgressData(item.path, exerciseCounts[item.path]);
-        progressPercentage = lessonProgress.percentage;
+    if (item.path && !hasChildren) {
+        // Debug Log
+        console.log(`[ReaderSidebar] Item: ${item.path}, Count: ${exerciseCounts[item.path]}, CountsKeys: ${Object.keys(exerciseCounts).length}`);
+
+        if (exerciseCounts[item.path] > 0) {
+            const lessonProgress = getLessonProgressData(item.path, exerciseCounts[item.path]);
+            progressPercentage = lessonProgress.percentage;
+
+            // if (item.path.includes('artikel')) {
+            //     console.log('Progress Data:', lessonProgress);
+            // }
+        }
     }
 
     return (
