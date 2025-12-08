@@ -20,6 +20,7 @@ interface ImageLabelingProps {
     slots: Slot[];
     words: string[];
     mode?: 'normal' | 'compact';
+    onResolvePath?: (path: string) => string;
 }
 
 function DraggableWord({ id, text, isUsed }: { id: string; text: string; isUsed: boolean }) {
