@@ -8,6 +8,8 @@ import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { ProgressProvider, useProgress } from './context/ProgressContext';
 import { NextLessonNavigation } from './components/NextLessonNavigation';
 import { SettingsModal } from './components/settings/SettingsModal';
+import { BrowserFileSystem } from './lib/github/fileSystem';
+import exerciseCountsData from './exerciseCounts.json';
 import { ProgressBar } from './components/progress/ProgressBar';
 import { Check, Loader2 } from 'lucide-react';
 
@@ -266,7 +268,7 @@ function AppContent() {
     // Calculate stats
     // Note: exerciseCounts.json should be present in public/ or generated during build
     // For ReaderApp, we assume it's available or we might need to fetch it too.
-    import exerciseCountsData from './exerciseCounts.json';
+    // For ReaderApp, we assume it's available or we might need to fetch it too.
 
     const exerciseCounts = exerciseCountsData as Record<string, number>; // In a real reader build, this might be fetched or bundled. useProgress handles missing data gracefully.
 
