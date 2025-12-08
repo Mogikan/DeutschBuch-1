@@ -179,10 +179,10 @@ function SidebarItem({ item, depth = 0, exerciseCounts }: SidebarItemProps) {
     );
 }
 
-import { loadBundledFile } from './utils/contentLoader';
+import { loadBundledComponent } from './utils/contentLoader';
 
 function DynamicPage({ path }: { path: string }) {
-    const [content, setContent] = useState<string | null>(null);
+    const [Content, setContent] = useState<React.ComponentType<any> | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -192,10 +192,10 @@ function DynamicPage({ path }: { path: string }) {
             setLoading(true);
             setError(null);
             try {
-                const fileContent = await loadBundledFile(path);
+                const Component = await loadBundledComponent(path);
 
-                if (fileContent) {
-                    if (mounted) setContent(fileContent);
+                if (Component) {
+                    if (mounted) setContent(() => Component);
                 } else {
                     throw new Error(`File not found: ${path}`);
                 }
@@ -214,7 +214,7 @@ function DynamicPage({ path }: { path: string }) {
 
     return (
         <div className="relative group">
-            <MDXViewer content={content || ''} />
+            {Content && <Content />}
         </div>
     );
 }

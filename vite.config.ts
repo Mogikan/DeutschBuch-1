@@ -9,12 +9,10 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 export default defineConfig({
   base: '/DeutschBuch-1/',
   plugins: [
-    {
-      enforce: 'pre', ...mdx({
-        remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
-        providerImportSource: "@mdx-js/react"
-      })
-    },
+    mdx({
+      remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
+      providerImportSource: "@mdx-js/react"
+    }),
     react()
   ],
 })

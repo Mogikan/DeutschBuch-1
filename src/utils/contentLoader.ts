@@ -41,16 +41,13 @@ export async function loadCourseStructure(fs?: IFileSystem): Promise<CourseStruc
     return yaml.load(yamlContent) as CourseStructure;
 }
 
-export async function loadBundledFile(path: string): Promise<string | null> {
-    // Import all MDX files as raw strings
-    // Import all MDX files as raw strings
-    // value is { default: string } because of ?raw
-    const modules = import.meta.glob('../content/**/*.mdx', { query: '?raw', eager: true });
+// Load compiled MDX component (Standard Vite Build)
+export async function loadBundledComponent(path: string): Promise<React.ComponentType<any> | null> {
+    // Import all MDX files as React components
+    // eager: true ensures they are included in the bundle
+    const modules = import.meta.glob('../content/**/*.mdx', { eager: true, import: 'default' });
 
     // Normalize path to match glob keys
-    // Glob keys are relative to this file: ../content/path/to/file.mdx
-
-    // Input path might be "a1/lesson-1" or "src/content/a1/lesson-1.mdx" or "/a1/lesson-1"
     let cleanPath = path.startsWith('/') ? path.slice(1) : path;
     if (cleanPath.startsWith('src/content/')) cleanPath = cleanPath.replace('src/content/', '');
     if (cleanPath.endsWith('.mdx')) cleanPath = cleanPath.slice(0, -4);
@@ -60,33 +57,12 @@ export async function loadBundledFile(path: string): Promise<string | null> {
         `../content/${cleanPath}/index.mdx`
     ];
 
-    console.log('[ContentLoader] Loading:', path);
-    console.log('[ContentLoader] Candidates:', candidates);
-    console.log('[ContentLoader] Available keys sample:', Object.keys(modules).slice(0, 5));
-    // console.log('[ContentLoader] All keys:', Object.keys(modules));
-
     for (const key of candidates) {
         if (key in modules) {
-            const mod = modules[key] as any;
-            console.log('[ContentLoader] Match found:', key);
-            console.log('[ContentLoader] Type:', typeof mod);
-
-            // Handle different import results
-            // Handle different import results
-            if (typeof mod === 'string') return mod;
-
-            // If it's a module with default export (common with ?raw + eager without import:'default')
-            if (typeof mod === 'object' && mod !== null && 'default' in mod) {
-                return mod.default as string;
-            }
-
-            // Fallback: if it's a function (the issue we saw), call it?
-            // But with eager: true it shouldn't be a function unless it's a component.
-            // If ?raw worked, it should be a module with default string.
-
-            return JSON.stringify(mod);
+            return modules[key] as React.ComponentType<any>;
         }
     }
-    console.warn('[ContentLoader] No match found for:', path);
+
+    console.warn('[ContentLoader] No matching component found for:', path);
     return null;
 }
