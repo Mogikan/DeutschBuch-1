@@ -8,6 +8,8 @@ structure:
         path: /a1/
       - title: что это?
         path: /a1/chto-eto
+      - title: Статья 6
+        path: /a1/stat-ya-6
   - title: A2
     items:
       - title: a1 task1
