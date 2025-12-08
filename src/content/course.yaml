@@ -6,7 +6,7 @@ structure:
         path: /a1/task1
       - title: task 2
         path: /a1/
-      - title: что это?
+      - title: Задача 3
         path: /a1/chto-eto
       - title: Статья 6
         path: /a1/stat-ya-6
