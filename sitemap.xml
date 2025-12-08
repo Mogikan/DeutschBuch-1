@@ -8,6 +8,30 @@
     </url>
     
     <url>
+        <loc>https://www.kornei.de/a1/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://www.kornei.de/a1/chto-eto</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://www.kornei.de/a1/stat-ya-6</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://www.kornei.de/a1/stat-ya-5</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
         <loc>https://www.kornei.de/a2/a1-task1</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
