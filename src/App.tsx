@@ -8,7 +8,7 @@ import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { ProgressProvider, useProgress } from './context/ProgressContext';
 import { NextLessonNavigation } from './components/NextLessonNavigation';
 import { SettingsModal } from './components/settings/SettingsModal';
-import { BrowserFileSystem } from './lib/github/fileSystem';
+
 import exerciseCountsData from './exerciseCounts.json';
 import { ProgressBar } from './components/progress/ProgressBar';
 import { Check, Loader2 } from 'lucide-react';
