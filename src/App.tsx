@@ -122,11 +122,11 @@ function SidebarItem({ item, depth = 0, exerciseCounts }: SidebarItemProps) {
     }
 
     let progressPercentage = 0;
-    if (item.path && !hasChildren) {
-        const count = lookupExerciseCount(exerciseCounts, item.path);
+    const count = (item.path && !hasChildren) ? lookupExerciseCount(exerciseCounts, item.path) : 0;
 
+    if (item.path && !hasChildren) {
         // Debug Log
-        console.log(`[ReaderSidebar] Item: ${item.path}, ResolvedCount: ${count}`);
+        // console.log(`[ReaderSidebar] Item: ${item.path}, ResolvedCount: ${count}`);
 
         if (count > 0) {
             const lessonProgress = getLessonProgressData(item.path, count);
@@ -180,8 +180,8 @@ function SidebarItem({ item, depth = 0, exerciseCounts }: SidebarItemProps) {
                             className="flex-1 flex items-center justify-between gap-2"
                         >
                             <span>{item.title}</span>
-                            {!hasChildren && exerciseCounts[item.path] > 0 && (() => {
-                                const lessonProgress = getLessonProgressData(item.path, exerciseCounts[item.path]);
+                            {!hasChildren && count > 0 && (() => {
+                                const lessonProgress = getLessonProgressData(item.path!, count);
                                 const isComplete = lessonProgress.completedExercises === lessonProgress.totalExercises;
                                 return (
                                     <div className="flex items-center gap-1.5 text-[11px] text-gray-500 dark:text-gray-400">
