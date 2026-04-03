@@ -16,3 +16,5 @@ structure:
     items:
       - title: a1 task1
         path: /a2/a1-task1
+  - title: B2
+    items: []
