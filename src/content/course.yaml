@@ -17,4 +17,6 @@ structure:
       - title: a1 task1
         path: /a2/a1-task1
   - title: B2
-    items: []
+    items:
+      - title: Goethe B2
+        path: /b2/goethe-b2
